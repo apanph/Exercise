@@ -13,12 +13,14 @@ public class Solution {
 	}
 
 	static int firstNonRepeatingPosition(String s) {
-		Map<Character, int[]> m = new HashMap<>(); // array of dimension 2 contains index and number of repetition of the character in string
-		for (int i = 0; i < s.length(); i++)
-			if (m.containsKey(s.charAt(i)))
-				m.get(s.charAt(i))[1]++; // increment count
+		Map<Character, int[]> m = new HashMap<>(); // array of dimension 2 contains index and number of repetitions of character in string
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (m.containsKey(c))
+				m.get(c)[1]++; // increment count
 			else
-				m.put(s.charAt(i), new int[]{i,1}); // add new entry with position 1 and count 1
+				m.put(c, new int[]{i,1}); // add new entry with position 1 and count 1
+		}
 
 		int r = Integer.MAX_VALUE;
 		// string can be long and map usually short, so instead of traversing over it and getting number of repetitions by looking up char in Map<Character, Integer>, it's better to traverse over the collection of characters that also holds the position of char
