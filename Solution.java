@@ -68,6 +68,32 @@ public class Solution {
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	given array of students and their marks in different subjects. Find
+
+ 
+
+maximum average of the student in the following format below
+
+ 
+
+{name, avg}
+
+ 
+
+e.g.
+
+{“James”, “70”}
+
+{"Mark", "80"}
+
+{"Bash", "75"}
+
+{"Mark", "60"}
+
+So, here average marks for James, Mark and Bash are 70, 70, 75 respectively. So highest avg is 75 so it should be returned.
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 	public static void main(String[] args) {
 		testFirstNonRepeating("abracadabra");
 		testFirstNonRepeating("");
