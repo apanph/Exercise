@@ -1,6 +1,7 @@
 package panx;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Solution {
@@ -38,7 +39,7 @@ public class Solution {
 	}
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-
+	
 	Problem: Transfer a string to a string made of characters in the initial string followed by numbers of how many times they consequently repeat.
 	Examle: in: "qwweeerrrr" out: "q1w2e3r4"
 	Examle: in: "qq1" out: "q211"
@@ -69,18 +70,87 @@ public class Solution {
 	}
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-
-	Problem: Given array of students and their marks in different subjects in the format {name, avg}. Find maximum average of the student.
+	
+	Problem: Given an array of name of students and their marks. Find maximum average mark of the students who have such a max mark.
 	
 	Example:
 	
-	{“James”, “70”}
-	{"Mark", "80"}
-	{"Bash", "75"}
-	{"Mark", "60"}
+	Name	Mark
+	"James"	70
+	"Mark"	80
+	"Bash"	75
+	"Mark"	60
 	
-	Here average marks for James, Mark and Bash are 70, 70, 75 respectively. So the highest avg is 75.
+	Here average marks for James, Mark and Bash are 70, 70, 75 respectively. So the highest average mark is 75.
 	*/
+
+	static class Pair<T1, T2> {
+		T1 v1;
+		T2 v2;
+	}
+
+	static class StudentMark extends Pair<String, Integer> {
+
+		public StudentMark(String name, int mark) {
+			v1 = name;
+			v2 = mark;
+		}
+
+		String getName() {
+			return v1;
+		}
+
+		Integer getMark() {
+			return v2;
+		}
+	}
+
+	static int findMaxAvg(StudentMark[] studentMarks) {
+
+		class MarksSumAndCount extends Pair<Integer, Integer> {
+
+			MarksSumAndCount(int firstMark) {
+				v1 = firstMark;
+				v2 = 1;
+			}
+
+			void add(int mark) {
+				v1 += mark;
+				v2++;
+			}
+
+			Integer getAvg() {
+				return v1 / v2;
+			}
+		}
+
+		Map<String, MarksSumAndCount> m = new HashMap<>(); // Name -> marks sum, marks count
+		for (StudentMark sm : studentMarks) {
+			String name = sm.getName();
+			Integer mark = sm.getMark();
+			MarksSumAndCount msc = m.get(name);
+			if (msc == null)
+				m.put(name, new MarksSumAndCount(mark));
+			else
+				msc.add(mark);
+		}
+		int r = 0;
+		for (MarksSumAndCount msc : m.values()) {
+			int avg = msc.getAvg();
+			if (r < avg)
+				r = avg;
+		}
+		return r;
+	}
+
+	static void testFindMaxAvg() {
+		StudentMark[] a = new StudentMark[]{
+			new StudentMark("James", 70),
+			new StudentMark("Mark", 80),
+			new StudentMark("Bash", 75),
+			new StudentMark("Mark", 60)};
+		System.out.println(findMaxAvg(a));
+	}
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -95,5 +165,7 @@ public class Solution {
 		testEnumerateConsequentRepeatedChars("");
 		testEnumerateConsequentRepeatedChars("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
 		testEnumerateConsequentRepeatedChars("qq1");
+		System.out.printf("%n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%n");
+		testFindMaxAvg();
 	}
 }
