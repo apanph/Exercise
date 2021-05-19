@@ -6,6 +6,7 @@ import java.util.Map;
 public class Solution {
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 	Problem: Find first non-repeating character in a string.
 	Example: in: "abracadabra" out: 'c'
 	*/
@@ -37,6 +38,7 @@ public class Solution {
 	}
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
 	Problem: Transfer a string to a string made of characters in the initial string followed by numbers of how many times they consequently repeat.
 	Examle: in: "qwweeerrrr" out: "q1w2e3r4"
 	Examle: in: "qq1" out: "q211"
@@ -59,38 +61,26 @@ public class Solution {
 			}
 		}
 		return b.append(prev).append(count).toString();
-		
+
 	}
 
 	static void testEnumerateConsequentRepeatedChars(String s) {
 		System.out.printf("%s\t%s%n", enumerateConsequentRepeatedChars(s), s);
 	}
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+	Problem: Given array of students and their marks in different subjects in the format {name, avg}. Find maximum average of the student.
 	
-	given array of students and their marks in different subjects. Find
-
- 
-
-maximum average of the student in the following format below
-
- 
-
-{name, avg}
-
- 
-
-e.g.
-
-{“James”, “70”}
-
-{"Mark", "80"}
-
-{"Bash", "75"}
-
-{"Mark", "60"}
-
-So, here average marks for James, Mark and Bash are 70, 70, 75 respectively. So highest avg is 75 so it should be returned.
+	Example:
+	
+	{“James”, “70”}
+	{"Mark", "80"}
+	{"Bash", "75"}
+	{"Mark", "60"}
+	
+	Here average marks for James, Mark and Bash are 70, 70, 75 respectively. So the highest avg is 75.
+	*/
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
