@@ -2,10 +2,95 @@ package panx;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Solution {
+
+	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	Linked List Cycle
+	Problem: Given head, the head of a linked list, determine if the linked list has a cycle in it.
+	*/
+
+	static class ListNode {
+		int val;
+		ListNode next;
+
+		ListNode(int val) {
+			this.val = val;
+		}
+
+		ListNode(int val, ListNode next) {
+			this.val = val;
+			this.next = next;
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder r = new StringBuilder();
+			ListNode n = this;
+			int c = 0;
+			while (n != null && c++ < 30) {
+				r.append(n.val).append(", ");
+				n = n.next;
+			}
+			return r.toString();
+		}
+	}
+
+	//* Approach 1. Using Set
+
+	static boolean hadCycle(ListNode n) {
+		Set<ListNode> s = new HashSet<>(); // visited
+		ListNode p = n; // previous
+		while (n != null && !s.contains(n)) {
+			s.add(n);
+			p = n;
+			n = n.next;
+		}
+		if (n == null)
+			return false;
+		p.next = null; // break the cycle
+		return true;
+	}
+
+	static ListNode constructLinkedList(int[] vals, int loop) {
+		ListNode head = new ListNode(vals[0]);
+		ListNode n = head;
+		for (int i = 1; i < vals.length; i++)
+			n = n.next = new ListNode(vals[i]);
+		int i = 0;
+		ListNode c = head; // current
+		if (loop >= 0) {
+			while (i++ < loop)
+				c = c.next;
+			n.next = c;
+		}
+		return head;
+	}
+
+	static void testHadCycle() {
+		int[] vals = new int[]{0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
+		runAndShow(vals, -1);
+		runAndShow(vals, 5);
+		runAndShow(vals, 9);
+		runAndShow(vals, 0);
+		vals = new int[]{0};
+		runAndShow(vals, -1);
+		runAndShow(vals, 0);
+	}
+
+	private static void runAndShow(int[] vals, int loop) {
+		ListNode n;
+		n = constructLinkedList(vals, loop);
+		System.out.println(n);
+		boolean r;
+		r = hadCycle(n);
+		System.out.printf("%s %s%n%n", n, r);
+	}
 
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
@@ -23,7 +108,7 @@ public class Solution {
 			if (m.containsKey(s.charAt(i)))
 				m.get(s.charAt(i))[1]++; // increment count
 			else
-				m.put(s.charAt(i), new int[]{i,1}); // add new entry with position 1 and count 1
+				m.put(s.charAt(i), new int[]{i, 1}); // add new entry with position 1 and count 1
 
 		int r = Integer.MAX_VALUE;
 		// string can be long and map usually short, so instead of traversing over it and getting number of repetitions by looking up char in Map<Character, Integer>, it's better to traverse over the collection of characters that also holds the position of char
@@ -145,23 +230,18 @@ public class Solution {
 	}
 
 	static void testFindMaxAvg() {
-		StudentMark[] a = new StudentMark[]{
-			new StudentMark("James", 70),
-			new StudentMark("Mark", 80),
-			new StudentMark("Bash", 75),
-			new StudentMark("Mark", 60)};
+		StudentMark[] a = new StudentMark[]{new StudentMark("James", 70), new StudentMark("Mark", 80), new StudentMark("Bash", 75), new StudentMark("Mark", 60)};
 		System.out.println(findMaxAvg(a));
 	}
 
-
-/*
-leetcode.com/problems/longest-palindromic-substring
-5. Longest Palindromic Substring
-Also My solution: All Longest Palindromic Substrings
-Brute forse solutions.
-Time complexity: O(n^3).
-Space complexity: O(1).
-*/
+	/*
+	leetcode.com/problems/longest-palindromic-substring
+	5. Longest Palindromic Substring
+	Also My solution: All Longest Palindromic Substrings
+	Brute forse solutions.
+	Time complexity: O(n^3).
+	Space complexity: O(1).
+	*/
 	public static List<String> longestPalindromes(String s) {
 		List<String> r = new ArrayList<>();
 		findLongestPalindromes(s, r, 0);
@@ -186,12 +266,12 @@ Space complexity: O(1).
 			return; // All other substrings will be shorter; no need to further check. Breke recursion.
 	}
 
-/*
-Success
-Details 
-Runtime: 2067 ms, faster than 5.01% of Java online submissions for Longest Palindromic Substring.
-Memory Usage: 541.7 MB, less than 5.00% of Java online submissions for Longest Palindromic Substring.	
-*/
+	/*
+	Success
+	Details 
+	Runtime: 2067 ms, faster than 5.01% of Java online submissions for Longest Palindromic Substring.
+	Memory Usage: 541.7 MB, less than 5.00% of Java online submissions for Longest Palindromic Substring.	
+	*/
 	public static String longestPalindrome(String s) {
 		return findLongestPalindrome(s, 0);
 	}
@@ -213,13 +293,13 @@ Memory Usage: 541.7 MB, less than 5.00% of Java online submissions for Longest P
 		return true;
 	}
 
-/*
-Expand Around Center approach. For disguising I offer spreadWhilePalindrome instead expandAroundCenter aux method name.
-Success
-Details 
-Runtime: 23 ms, faster than 90.63% of Java online submissions for Longest Palindromic Substring.
-Memory Usage: 38.8 MB, less than 90.44% of Java online submissions for Longest Palindromic Substring. 
-*/
+	/*
+	Expand Around Center approach. For disguising I offer spreadWhilePalindrome instead expandAroundCenter aux method name.
+	Success
+	Details 
+	Runtime: 23 ms, faster than 90.63% of Java online submissions for Longest Palindromic Substring.
+	Memory Usage: 38.8 MB, less than 90.44% of Java online submissions for Longest Palindromic Substring. 
+	*/
 	public static String longestPalindromeEac(String s) {
 		int b = 0; // bebeginning of longest palindrome
 		int e = -1; // end ~~. -1 for empty string
@@ -233,17 +313,17 @@ Memory Usage: 38.8 MB, less than 90.44% of Java online submissions for Longest P
 		return s.substring(b, e + 1);
 	}
 
-/*
-5. Longest Palindromic Substring
-leetcode.com/problems/longest-palindromic-substring
-
-This is my improvement. This method starts serching for palindroms from the middle of the string, and not from the beginning; it is more effective.
-
-Success
-Details 
-Runtime: 24 ms, faster than 80.08% of Java online submissions for Longest Palindromic Substring.
-Memory Usage: 39.1 MB, less than 76.85% of Java online submissions for Longest Palindromic Substring.
-*/
+	/*
+	5. Longest Palindromic Substring
+	leetcode.com/problems/longest-palindromic-substring
+	
+	This is my improvement. This method starts serching for palindroms from the middle of the string, and not from the beginning; it is more effective.
+	
+	Success
+	Details 
+	Runtime: 24 ms, faster than 80.08% of Java online submissions for Longest Palindromic Substring.
+	Memory Usage: 39.1 MB, less than 76.85% of Java online submissions for Longest Palindromic Substring.
+	*/
 	public static String longestPalindromeSwp(String s) {
 		int b = 0; // bebeginning of longest palindrome
 		int e = 0; // end ..
@@ -304,23 +384,8 @@ Memory Usage: 39.1 MB, less than 76.85% of Java online submissions for Longest P
 		return r - l - 1;
 	}
 
-
 	static void testlongestPalindromes() {
-		String[] a = new String[] {
-			"abracadabra",
-			"banana",
-			"bananas",
-			"abba",
-			"aabb",
-			"",
-			"aaaaaaaaaaaaaaaaaaaaaa",
-			"hehe",
-			"he-he",
-			"a",
-			"zz",
-			"eabcb",
-			"121232343"
-		};
+		String[] a = new String[]{"abracadabra", "banana", "bananas", "abba", "aabb", "", "aaaaaaaaaaaaaaaaaaaaaa", "hehe", "he-he", "a", "zz", "eabcb", "121232343"};
 		for (String v : a)
 			System.out.println(longestPalindrome(v));
 		System.out.println("------------------");
@@ -336,7 +401,7 @@ Memory Usage: 39.1 MB, less than 76.85% of Java online submissions for Longest P
 			System.out.println(longestPalindromesSwp(v));
 		System.out.println("------------------");
 	}
-	
+
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	public static void main(String[] args) {
@@ -354,5 +419,7 @@ Memory Usage: 39.1 MB, less than 76.85% of Java online submissions for Longest P
 		testFindMaxAvg();
 		System.out.printf("%n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%n");
 		testlongestPalindromes();
+		System.out.printf("%n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%n");
+		testHadCycle();
 	}
 }
